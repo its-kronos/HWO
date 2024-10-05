@@ -1,4 +1,8 @@
+import * as THREE from 'three';
+
+
 // The updateLabel function
+
 export const updateLabel = (model, textDiv, sceneDiv, camera, textPosition) => {
     if (model) {
       textPosition.setFromMatrixPosition(model.matrixWorld);
@@ -29,3 +33,37 @@ export const updateLabel = (model, textDiv, sceneDiv, camera, textPosition) => {
       }
     }
   };
+
+    // Create points for the orbit circle
+export const createOrbitPoints = (radius, params, segments = 360) => {
+        const points = [];
+        const tiltAngle = THREE.MathUtils.degToRad(60);
+
+        // Create an Euler object for the given pitch, yaw, and roll
+        const euler = new THREE.Euler(
+          THREE.MathUtils.degToRad(params.pitch),
+          THREE.MathUtils.degToRad(params.yaw),
+          THREE.MathUtils.degToRad(params.roll),
+          'XYZ'
+        );
+      
+        // Create a quaternion from the Euler angles
+        const quaternion = new THREE.Quaternion().setFromEuler(euler);
+      
+        for (let i = 0; i <= segments; i++) {
+          const theta = (i / segments) * Math.PI * 2;
+          const x = radius * Math.cos(theta);
+          const y = 0; 
+          const z = radius * Math.sin(theta);
+          
+          const point = new THREE.Vector3(x, y, z).applyAxisAngle(new THREE.Vector3(1, 0, 0), tiltAngle);
+      
+          // Apply pitch, yaw, and roll
+          point.applyQuaternion(quaternion);
+      
+          points.push(point);
+        }
+      
+        return points;
+      };
+      

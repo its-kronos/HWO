@@ -8,7 +8,7 @@ import { HWOLOS } from './components/HWO';
 import { Galaxy } from './components/galaxy';
 import { coords } from './components/planets';
 import { pointInCone } from '../utils/utils';
-
+import { createOrbitPoints } from './components/utils';
 
 
 
@@ -20,43 +20,11 @@ export const ExoExplore = ({params, coords, setCoords, setCoordsExtremes, coords
   const [LOS, setLOS] = useState(new THREE.Vector3(50000, 0, 0));
   const [coneProp, setConeProp] = useState({v1: LOS, v2: new THREE.Vector3(0,0,0)})
   const [angle, setAngle] = useState(0);
-  
-  const tiltAngle = THREE.MathUtils.degToRad(60); // Tilt the orbit by 60 degrees
+  const tiltAngle = THREE.MathUtils.degToRad(60);
   
 
 
-  // Create points for the orbit circle
-  const createOrbitPoints = (radius, segments = 100) => {
-    const points = [];
-    
-    // Create an Euler object for the given pitch, yaw, and roll
-    const euler = new THREE.Euler(
-      THREE.MathUtils.degToRad(params.pitch),
-      THREE.MathUtils.degToRad(params.yaw),
-      THREE.MathUtils.degToRad(params.roll),
-      'XYZ'
-    );
-  
-    // Create a quaternion from the Euler angles
-    const quaternion = new THREE.Quaternion().setFromEuler(euler);
-  
-    for (let i = 0; i <= segments; i++) {
-      const theta = (i / segments) * Math.PI * 2;
-      const x = radius * Math.cos(theta);
-      const y = 0; 
-      const z = radius * Math.sin(theta);
-      
-      const point = new THREE.Vector3(x, y, z).applyAxisAngle(new THREE.Vector3(1, 0, 0), tiltAngle);
-  
-      // Apply pitch, yaw, and roll
-      point.applyQuaternion(quaternion);
-  
-      points.push(point);
-    }
-  
-    return points;
-  };
-  
+
   // Animated target moving along the orbit
 // Animated target moving along the orbit, rotating only once upon startup
 const AnimatedTarget = ({ radius }) => {
@@ -100,9 +68,9 @@ const AnimatedTarget = ({ radius }) => {
     const r = losVector.distanceTo(coneProp.v2) *Math.tan(HFOV)
     setLOS(losVector);
     setConeProp({ v1: losVector, v2: new THREE.Vector3(0, 0, 0), r:r});
-    console.log(pointInCone(coords, coneProp))
   });
 };
+console.log(pointInCone(coords, coneProp, orbitRadius, params))
 
 
   return (
@@ -110,7 +78,7 @@ const AnimatedTarget = ({ radius }) => {
       id='canvas'
       gl={{ alpha: false, antialias: true }}
       style={{ background: 'black', width: '100%', height: '100%' }}
-      camera={{ position: [0, 0, 40000], far: 100000000, near: 0.0001 }}
+      camera={{ position: [0, 0, 4000000], far: 100000000, near: 0.0001 }}
     >
       <Sphere position={[1000, 3000, 2000]} args={[60, 100, 100]}>
         <meshBasicMaterial color="white" />
@@ -119,7 +87,7 @@ const AnimatedTarget = ({ radius }) => {
 
       {/* Draw orbit curve */}
       <Line
-        points={createOrbitPoints(orbitRadius)} // Points to create the orbit path
+        points={createOrbitPoints(orbitRadius, params)} // Points to create the orbit path
         color="blue" // Color of the orbit line
         lineWidth={1} // Thickness of the line
       />
