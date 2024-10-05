@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import { FillerUI } from './UI/fillerUI'; // change name for this later
+import './App.css'
+import { ExoExplore } from './3d/ExoExplore';
+import styles from './index.css'
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="relative w-full h-screen">
+        {/* MAIN BODY HERE (3d renders) */}
+        <ExoExplore />
+        <div className="absolute top-5 left-5 space-y-4 z-50">
+          {/* UI GOES HERE */}
+          <FillerUI />
+        </div>
+      </div>
     </div>
   );
 }
