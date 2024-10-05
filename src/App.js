@@ -18,19 +18,26 @@ function App() {
     SNR: { min: Infinity, max: -Infinity },
     ESmax: { min: Infinity, max: -Infinity },
   });
-  // const [analysis, setAnalysis] = useState(AnalysisGeneration(coords,));
+  const orbitRadius = 2542864.0; 
+
   const [exo, setExo] = useState(null)
   const [params, setParams] = useState({aperture: 8, focalLength: 131.4, sensorSize: 4000, pitch:0, yaw:0, roll:0})
+  const [analysis, setAnalysis] = useState(null);
+
   return (
     <div className="relative w-full h-screen">
       {exo ? <ExoplanetScene params={exo} /> : <ExoExplore params={params} coords={coords} setCoords={setCoords} setCoordsExtremes={setCoordsExtremes} coordsExtremes={coordsExtremes} />}
       
-      <div className="absolute top-5 left-5 space-y-4 z-50">
-        {/* UI GOES HERE */}
-        <ExoTable />
-        {/* <ESIPlot points={analysis}/> */}
-        <HostStarTable />
+
+      
+      <div className="absolute top-5 right-5 space-y-4 z-50">
+        <ESIPlot points={analysis}/>
       </div>
+
+      <div className="absolute top-5 right-5 space-y-4 z-50">
+        <button onClick={() => {setAnalysis(AnalysisGeneration(coords,orbitRadius,params));}} className="btn btn-primary">Update Stats</button>
+      </div>
+
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 
-const ESIPlot = () => {
+const ESIPlot = ({points}) => {
   // Constants
   const F_earth = 1.0; // Normalize solar flux at Earth
   const R_earth = 1.0; // Earth radius in Earth radii
@@ -27,9 +27,14 @@ const ESIPlot = () => {
     ESI.push(row);
   }
 
-  // Coordinates for the point to be added (for example, Earth-like point)
-  const pointX = [400]; 
-  const pointY = [277]; 
+  let pointX = [477];
+  let pointY = [377];
+  if (points){
+    pointX = points.characterizable.map(point => point.pl_rade); 
+    pointY = points.characterizable.map(point => point.pl_insol);
+  }else{
+
+  }
 
   return (
     <div>
@@ -59,7 +64,7 @@ const ESIPlot = () => {
             type: 'scatter',
             mode: 'markers',
             marker: {
-              color: 'white',  
+              color: '#FF07E6',  
               size: 5,      
             },
 
@@ -74,7 +79,7 @@ const ESIPlot = () => {
           },
           xaxis: {
             title: {
-              text: 'Stellar Flux ($F/F_{E}$)',
+              text: 'Stellar Flux',
               font: {
                 color: 'white', // Change x-axis title color to white
               },
@@ -87,7 +92,7 @@ const ESIPlot = () => {
           },
           yaxis: {
             title: {
-              text: 'Planet Radius ($R/R_{E}$)',
+              text: 'Planet Radius',
               font: {
                 color: 'white', // Change y-axis title color to white
               },

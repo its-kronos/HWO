@@ -11,7 +11,7 @@ export function habitZoneRadii(bolMagSun=4.72,apparentMag,d,specType){
     return [radInner,radOutter];
 }
 
-export const AnalysisGeneration = (points, coneProp, orbitRadius, params) => {
+export const AnalysisGeneration = (points, orbitRadius, params) => {
     let y = [];
     let n = [];
     let u = [];
@@ -24,7 +24,8 @@ export const AnalysisGeneration = (points, coneProp, orbitRadius, params) => {
             const apex = new THREE.Vector3(0, 0, 0);
             const direction = new THREE.Vector3().subVectors(conePoint, apex).normalize();
             const h = apex.distanceTo(conePoint); // Height of the cone
-            const r = coneProp.r; 
+            const HFOV = Math.atan(params.sensorSize/(2*params.focalLength * 1000))
+            const r = h *Math.tan(HFOV)
     
             // Calculate the vector from the apex to the point
             const toPoint = new THREE.Vector3().subVectors(point, apex);
