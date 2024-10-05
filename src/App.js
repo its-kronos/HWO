@@ -28,7 +28,13 @@ function App() {
     <div className="relative w-full h-screen">
       {exo ? <ExoplanetScene params={exo} /> : <ExoExplore params={params} coords={coords} setCoords={setCoords} setCoordsExtremes={setCoordsExtremes} coordsExtremes={coordsExtremes} />}
       
+      <div className="absolute top-5 left-5 space-y-4 z-50">
+        <ExoTable />
+      </div>
 
+      <div className="absolute top-5 left-5 space-y-4 z-50">
+        <HostStarTable />
+      </div>
 
       <div className="absolute top-5 right-5 space-y-4 z-50">
         <ESIPlot points={analysis}/>
