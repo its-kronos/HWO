@@ -27,6 +27,10 @@ const ESIPlot = () => {
     ESI.push(row);
   }
 
+  // Coordinates for the point to be added (for example, Earth-like point)
+  const pointX = [400]; 
+  const pointY = [277]; 
+
   return (
     <div>
       <Plot
@@ -36,7 +40,7 @@ const ESIPlot = () => {
             x: r,
             y: f,
             type: 'contour',
-            colorscale: 'Viridis', // Red to blue color scale
+            colorscale: 'Jet', // Red to blue color scale
             colorbar: {
               title: {
                 text: 'Earth Similarity Index (ESI)',
@@ -48,6 +52,17 @@ const ESIPlot = () => {
                 color: 'white', // Change color bar tick labels to white
               },
             },
+          },
+          {
+            x: pointX,  
+            y: pointY,  
+            type: 'scatter',
+            mode: 'markers',
+            marker: {
+              color: 'white',  
+              size: 5,      
+            },
+
           },
         ]}
         layout={{

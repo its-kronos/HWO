@@ -5,6 +5,7 @@ import styles from "./index.css"
 import { useState } from 'react';
 import { ExoTable } from "./UI/ExoTable";
 import ESIPlot from "./UI/ESIcontour";
+import { AnalysisGeneration } from "./utils/utils";
 function App() {
   const [coords, setCoords] = useState([]);
   const [coordsExtremes, setCoordsExtremes] = useState({
@@ -15,6 +16,7 @@ function App() {
     SNR: { min: Infinity, max: -Infinity },
     ESmax: { min: Infinity, max: -Infinity },
   });
+  // const [analysis, setAnalysis] = useState(AnalysisGeneration(coords,));
   const [exo, setExo] = useState(null)
   const [params, setParams] = useState({aperture: 8, focalLength: 131.4, sensorSize: 4000, pitch:0, yaw:0, roll:0})
   return (
@@ -26,7 +28,8 @@ function App() {
         <ExoTable />
       </div>
       <div className="absolute top-5 left-5 space-y-4 z-50">
-        {/* <ESIPlot /> */}
+        {/* UI GOES HERE */}
+        <ESIPlot points={analysis}/>
       </div>
     </div>
   );

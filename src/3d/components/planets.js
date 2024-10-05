@@ -138,10 +138,7 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
       vertices[idx * 3] = pos.x;
       vertices[idx * 3 + 1] = pos.y;
       vertices[idx * 3 + 2] = pos.z;
-
-      const SNR = pos.SNR;
-      const ESmax = pos.ESmax;
-      const key ="ESmax";
+      const key ="SNR";
       const maxVal = coordsExtremes[key].max;
       const minVal = coordsExtremes[key].min;
 

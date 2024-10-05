@@ -12,9 +12,9 @@ export function habitZoneRadii(bolMagSun=4.72,apparentMag,d,specType){
 }
 
 export const AnalysisGeneration = (points, coneProp, orbitRadius, params) => {
-    let y = 0;
-    let n = 0;
-    let u = 0;
+    let y = [];
+    let n = [];
+    let u = [];
     const explored = new Set();
 
     const conePoints = createOrbitPoints(orbitRadius, params);
@@ -41,13 +41,13 @@ export const AnalysisGeneration = (points, coneProp, orbitRadius, params) => {
             // Check if the point is valid and hasn't been counted yet and in the cone
             if (!explored.has(data.pl_name)  && orthDistance < coneRadius) {
                 if(data.SNR === Infinity || isNaN(data.SNR) || data.ESmax === Infinity || isNaN(data.ESmax)){
-                    u++;
+                    u.push(data);
                 }
                 else {
                     if (data.SNR > 5 && data.sy_dist < data.ESmax) {
-                        y++;
+                        y.push(data);
                     } else {
-                        n++;
+                        n.push(data);
                     }
                 }
                 explored.add(data.pl_name)
