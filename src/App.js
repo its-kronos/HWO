@@ -7,7 +7,7 @@ import ESIPlot from "./UI/ESIcontour";
 import { AnalysisGeneration } from "./utils/utils";
 import { ExoTable } from "./UI/ExoTable";
 import { HostStarTable } from "./UI/hostStarTable"
-
+import { ExoBarChart } from "./UI/Bars";
 function App() {
   const [coords, setCoords] = useState([]);
   const [coordsExtremes, setCoordsExtremes] = useState({
@@ -35,6 +35,11 @@ function App() {
       <div className="absolute top-5 left-5 space-y-4 z-50">
         <HostStarTable />
       </div>
+
+      <div className="absolute top-1/2 right-5 transform -translate-y-1/2 space-y-4 z-50 w-1/4">
+          <ExoBarChart analytics={analysis} />
+      </div>
+
 
       <div className="absolute top-5 right-5 space-y-4 z-50">
         <ESIPlot points={analysis}/>
