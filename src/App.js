@@ -3,7 +3,8 @@ import ExoplanetScene from "./3d/components/Exoplanet";
 import "./App.css";
 import styles from "./index.css"
 import { useState } from 'react';
-import { FillerUI } from "./UI/fillerUI";
+import { ExoTable } from "./UI/ExoTable";
+import ESIPlot from "./UI/ESIcontour";
 function App() {
   const [coords, setCoords] = useState([]);
   const [coordsExtremes, setCoordsExtremes] = useState({
@@ -22,7 +23,10 @@ function App() {
       
       <div className="absolute top-5 left-5 space-y-4 z-50">
         {/* UI GOES HERE */}
-        <FillerUI />
+        <ExoTable />
+      </div>
+      <div className="absolute top-5 left-5 space-y-4 z-50">
+        {/* <ESIPlot /> */}
       </div>
     </div>
   );
