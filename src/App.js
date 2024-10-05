@@ -14,10 +14,11 @@ function App() {
     SNR: { min: Infinity, max: -Infinity },
     ESmax: { min: Infinity, max: -Infinity },
   });
+  const [exo, setExo] = useState(null)
   const [params, setParams] = useState({aperture: 8, focalLength: 131.4, sensorSize: 4000, pitch:0, yaw:0, roll:0})
   return (
     <div className="relative w-full h-screen">
-      <ExoplanetScene />
+      {exo ? <ExoplanetScene params={exo} /> : <ExoExplore params={params} coords={coords} setCoords={setCoords} setCoordsExtremes={setCoordsExtremes} coordsExtremes={coordsExtremes} />}
       
       <div className="absolute top-5 left-5 space-y-4 z-50">
         {/* UI GOES HERE */}

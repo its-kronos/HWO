@@ -58,7 +58,7 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
     const isValid = (value) => !isNaN(value) && isFinite(value);
   
     // Calculate global min/max
-    const newCoords = data.map(({ glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, pl_orbeccen}) => {
+    const newCoords = data.map(({ glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, pl_orbeccen, sy_vmag,st_spectype}) => {
       
       const sy_dist_m = sy_dist * P2M;
       const Rstar = st_rad;
@@ -97,8 +97,8 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
       }
 
       const characterizable = (SNR > 5 && sy_dist < ESmax) 
-  
-      return {x:cartesian.x,y:cartesian.y,z:cartesian.z, glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, sy_dist_m, SNR, ESmax, characterizable, pl_orbeccen};
+      console.log(st_spectype)
+      return {x:cartesian.x,y:cartesian.y,z:cartesian.z, glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, sy_dist_m, SNR, ESmax, characterizable, pl_orbeccen, sy_vmag,st_spectype};
     });
   
     // Adjust min/max to 5th and 95th percentiles
