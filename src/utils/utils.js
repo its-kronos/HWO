@@ -1,6 +1,6 @@
 // Utility functions go here
 import * as THREE from 'three';
-//import { createOrbitPoints } from '../3d/components/utils';
+import { createOrbitPoints } from '../3d/components/utils';
 
 export function habitZoneRadii(bolMagSun=4.72,apparentMag,d,specType){
     var absMag = apparentMag-(5*Math.log10(d/10));
