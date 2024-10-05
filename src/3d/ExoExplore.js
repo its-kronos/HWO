@@ -70,7 +70,7 @@ const AnimatedTarget = ({ radius }) => {
     setConeProp({ v1: losVector, v2: new THREE.Vector3(0, 0, 0), r:r});
   });
 };
-console.log(pointInCone(coords, coneProp, orbitRadius, params))
+
 
 
   return (
