@@ -48,7 +48,7 @@ const ESIPlot = ({points}) => {
             colorscale: 'RdBu', // Red to blue color scale
             colorbar: {
               title: {
-                text: '(ESI)',
+                text: 'ESI',
                 font: {
                   color: 'white', // Change color bar title font to white
                 },
