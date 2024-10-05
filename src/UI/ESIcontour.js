@@ -27,8 +27,8 @@ const ESIPlot = ({points}) => {
     ESI.push(row);
   }
 
-  let pointX = [477];
-  let pointY = [377];
+  let pointX = [];
+  let pointY = [];
   if (points){
     pointX = points.characterizable.map(point => point.pl_rade); 
     pointY = points.characterizable.map(point => point.pl_insol);
@@ -45,7 +45,7 @@ const ESIPlot = ({points}) => {
             x: r,
             y: f,
             type: 'contour',
-            colorscale: 'Jet', // Red to blue color scale
+            colorscale: 'RdBu', // Red to blue color scale
             colorbar: {
               title: {
                 text: 'Earth Similarity Index (ESI)',
@@ -64,7 +64,7 @@ const ESIPlot = ({points}) => {
             type: 'scatter',
             mode: 'markers',
             marker: {
-              color: '#FF07E6',  
+              color: 'white',  
               size: 5,      
             },
 
