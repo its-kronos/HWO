@@ -1,6 +1,6 @@
 // Utility functions go here
 import * as THREE from 'three';
-import { createOrbitPoints } from '../3d/components/utils';
+//import { createOrbitPoints } from '../3d/components/utils';
 
 export function habitZoneRadii(bolMagSun=4.72,apparentMag,d,specType){
     var absMag = apparentMag-(5*Math.log10(d/10));
@@ -9,6 +9,13 @@ export function habitZoneRadii(bolMagSun=4.72,apparentMag,d,specType){
     var radInner = Math.sqrt(absLum/1.1);
     var radOutter = Math.sqrt(absLum/0.54);
     return [radInner,radOutter];
+}
+
+export function scaledVector(point,orbitRad){
+    // scale point
+    var a = orbitRad / Math.sqrt(Math.pow(point.x,2)+Math.pow(point.y,2)+Math.pow(point.z,2));
+    point.multiplyScalar(a);
+    return point
 }
 
 export const AnalysisGeneration = (points, coneProp, orbitRadius, params) => {
