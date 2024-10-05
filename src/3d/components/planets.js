@@ -97,7 +97,6 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
       }
 
       const characterizable = (SNR > 5 && sy_dist < ESmax) 
-      console.log(st_spectype)
       return {x:cartesian.x,y:cartesian.y,z:cartesian.z, glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, sy_dist_m, SNR, ESmax, characterizable, pl_orbeccen, sy_vmag,st_spectype};
     });
   

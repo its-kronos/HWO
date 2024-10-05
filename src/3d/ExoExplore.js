@@ -7,7 +7,7 @@ import { ExoplanetPoints } from './components/planets';
 import { HWOLOS } from './components/HWO';
 import { Galaxy } from './components/galaxy';
 import { coords } from './components/planets';
-
+import { pointInCone } from '../utils/utils';
 
 
 
@@ -100,7 +100,7 @@ const AnimatedTarget = ({ radius }) => {
     const r = losVector.distanceTo(coneProp.v2) *Math.tan(HFOV)
     setLOS(losVector);
     setConeProp({ v1: losVector, v2: new THREE.Vector3(0, 0, 0), r:r});
-    // console.log(pointInCone(coords, coneProp))
+    console.log(pointInCone(coords, coneProp))
   });
 };
 
