@@ -56,7 +56,7 @@ export const AnalysisGeneration = (points, orbitRadius, params) => {
         });
     });
 
-    return {characterizable: y, nonCharacterizable: n, unknown: u, total: u+n+y}; 
+    return {characterizable: y, nonCharacterizable: n, unknown: u}; 
 };
 
 
