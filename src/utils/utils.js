@@ -15,13 +15,13 @@ export function scaledVector(point,orbitRad){
     // scale point
     var a = orbitRad / Math.sqrt(Math.pow(point.x,2)+Math.pow(point.y,2)+Math.pow(point.z,2));
     point.multiplyScalar(a);
-    return point
+    return point;
 }
 
-export const AnalysisGeneration = (points, coneProp, orbitRadius, params) => {
-    let y = 0;
-    let n = 0;
-    let u = 0;
+export const AnalysisGeneration = (points, orbitRadius, params) => {
+    let y = [];
+    let n = [];
+    let u = [];
     const explored = new Set();
 
     const conePoints = createOrbitPoints(orbitRadius, params);
@@ -31,7 +31,8 @@ export const AnalysisGeneration = (points, coneProp, orbitRadius, params) => {
             const apex = new THREE.Vector3(0, 0, 0);
             const direction = new THREE.Vector3().subVectors(conePoint, apex).normalize();
             const h = apex.distanceTo(conePoint); // Height of the cone
-            const r = coneProp.r; 
+            const HFOV = Math.atan(params.sensorSize/(2*params.focalLength * 1000))
+            const r = h *Math.tan(HFOV)
     
             // Calculate the vector from the apex to the point
             const toPoint = new THREE.Vector3().subVectors(point, apex);
@@ -48,13 +49,13 @@ export const AnalysisGeneration = (points, coneProp, orbitRadius, params) => {
             // Check if the point is valid and hasn't been counted yet and in the cone
             if (!explored.has(data.pl_name)  && orthDistance < coneRadius) {
                 if(data.SNR === Infinity || isNaN(data.SNR) || data.ESmax === Infinity || isNaN(data.ESmax)){
-                    u++;
+                    u.push(data);
                 }
                 else {
                     if (data.SNR > 5 && data.sy_dist < data.ESmax) {
-                        y++;
+                        y.push(data);
                     } else {
-                        n++;
+                        n.push(data);
                     }
                 }
                 explored.add(data.pl_name)
@@ -62,7 +63,7 @@ export const AnalysisGeneration = (points, coneProp, orbitRadius, params) => {
         });
     });
 
-    return {characterizable: y, nonCharacterizable: n, unknown: u, total: u+n+y}; 
+    return {characterizable: y, nonCharacterizable: n, unknown: u}; 
 };
 
 

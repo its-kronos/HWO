@@ -1,4 +1,4 @@
-export const hostStarTable = () => {
+export const HostStarTable = () => {
     return(
         <div className="card bg-transparent border border-white w-96 shadow-xl">
   <div className="card-body">

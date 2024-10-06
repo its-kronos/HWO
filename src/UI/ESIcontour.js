@@ -1,7 +1,7 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 
-const ESIPlot = () => {
+const ESIPlot = ({points}) => {
   // Constants
   const F_earth = 1.0; // Normalize solar flux at Earth
   const R_earth = 1.0; // Earth radius in Earth radii
@@ -27,6 +27,15 @@ const ESIPlot = () => {
     ESI.push(row);
   }
 
+  let pointX = [];
+  let pointY = [];
+  if (points){
+    pointX = points.characterizable.map(point => point.pl_rade); 
+    pointY = points.characterizable.map(point => point.pl_insol);
+  }else{
+
+  }
+
   return (
     <div>
       <Plot
@@ -36,10 +45,10 @@ const ESIPlot = () => {
             x: r,
             y: f,
             type: 'contour',
-            colorscale: 'Viridis', // Red to blue color scale
+            colorscale: 'RdBu', // Red to blue color scale
             colorbar: {
               title: {
-                text: 'Earth Similarity Index (ESI)',
+                text: 'ESI',
                 font: {
                   color: 'white', // Change color bar title font to white
                 },
@@ -48,6 +57,17 @@ const ESIPlot = () => {
                 color: 'white', // Change color bar tick labels to white
               },
             },
+          },
+          {
+            x: pointX,  
+            y: pointY,  
+            type: 'scatter',
+            mode: 'markers',
+            marker: {
+              color: 'white',  
+              size: 5,      
+            },
+
           },
         ]}
         layout={{
@@ -59,7 +79,7 @@ const ESIPlot = () => {
           },
           xaxis: {
             title: {
-              text: 'Stellar Flux ($F/F_{E}$)',
+              text: 'Stellar Flux',
               font: {
                 color: 'white', // Change x-axis title color to white
               },
@@ -72,7 +92,7 @@ const ESIPlot = () => {
           },
           yaxis: {
             title: {
-              text: 'Planet Radius ($R/R_{E}$)',
+              text: 'Planet Radius',
               font: {
                 color: 'white', // Change y-axis title color to white
               },

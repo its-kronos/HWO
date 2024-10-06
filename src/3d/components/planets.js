@@ -52,13 +52,14 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
       pl_orbsmax: { min: Infinity, max: -Infinity },
       sy_dist: { min: Infinity, max: -Infinity },
       SNR: { min: Infinity, max: -Infinity },
-      ESmax: { min: Infinity, max: -Infinity }
+      ESmax: { min: Infinity, max: -Infinity },
+      ESI: {min : Infinity, max: -Infinity}
     };
   
     const isValid = (value) => !isNaN(value) && isFinite(value);
   
     // Calculate global min/max
-    const newCoords = data.map(({ glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, pl_orbeccen, sy_vmag, st_spectype, pl_name}) => {
+    const newCoords = data.map(({ glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, pl_orbeccen, sy_vmag, st_spectype, pl_name, pl_insol}) => {
       
       const sy_dist_m = sy_dist * P2M;
       const Rstar = st_rad;
@@ -66,6 +67,12 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
       const PS = pl_orbsmax;
       const cartesian = convertToCartesian(glon, glat, sy_dist_m);
       let SNR = SNR0 * ((Rstar * RP * (D / 6)) / ((sy_dist / 10) * PS)) * 2;
+      const F_val = pl_insol;
+      const R_val = pl_rade;
+      const ESI = 1 - Math.sqrt(0.5 * (
+        Math.pow((F_val - 1) / (F_val + 1), 2) +
+        Math.pow((R_val - 1) / (R_val + 1), 2)
+      )); 
       if (isNaN(SNR)) SNR = 0;
   
       const ESmax = 15 * (D / 6) / PS;
@@ -74,6 +81,10 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
       if (isValid(st_rad)) {
         newMinMax.st_rad.min = Math.min(newMinMax.st_rad.min, st_rad);
         newMinMax.st_rad.max = Math.max(newMinMax.st_rad.max, st_rad);
+      }
+      if (isValid(ESI) && ESI >= 0 && ESI <= 1) {
+        newMinMax.ESI.min = Math.min(newMinMax.ESI.min, ESI);
+        newMinMax.ESI.max = Math.max(newMinMax.ESI.max, ESI);
       }
       if (isValid(pl_rade)) {
         newMinMax.pl_rade.min = Math.min(newMinMax.pl_rade.min, pl_rade);
@@ -97,7 +108,7 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
       }
 
       const characterizable = (SNR > 5 && sy_dist < ESmax) 
-      return {x:cartesian.x,y:cartesian.y,z:cartesian.z, glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, sy_dist_m, SNR, ESmax, characterizable, pl_orbeccen, sy_vmag,st_spectype, pl_name};
+      return {x:cartesian.x,y:cartesian.y,z:cartesian.z, glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, sy_dist_m, SNR, ESmax, characterizable, pl_orbeccen, sy_vmag,st_spectype, pl_name, pl_insol, ESI};
     });
   
     // Adjust min/max to 5th and 95th percentiles
@@ -138,18 +149,21 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
       vertices[idx * 3] = pos.x;
       vertices[idx * 3 + 1] = pos.y;
       vertices[idx * 3 + 2] = pos.z;
-
-      const SNR = pos.SNR;
-      const ESmax = pos.ESmax;
-      const key ="ESmax";
-      const maxVal = coordsExtremes[key].max;
-      const minVal = coordsExtremes[key].min;
+      const key ="ESI";
 
 
-        const [r,g,b] = interpolateColor(minVal ,maxVal, pos[key], "#FF0000", "#00FF00")
-        colors[idx * 3] = r; // Red
-        colors[idx * 3 + 1] = g; // Green
-        colors[idx * 3 + 2] = b; // Blue
+      let r,g,b;
+      console.log(coordsExtremes[key])
+      if(key === "characterizable"){
+        [r,g,b] = interpolateColor(1 ,0, pos[key], "#00FF00", "#FF0000")
+      }else{
+        const maxVal = coordsExtremes[key].max;
+        const minVal = coordsExtremes[key].min;
+        [r,g,b] = interpolateColor(minVal ,maxVal, pos[key], "#FF0000", "#00FF00")
+      }
+      colors[idx * 3] = r; // Red
+      colors[idx * 3 + 1] = g; // Green
+      colors[idx * 3 + 2] = b; // Blue
     });
 
     geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
