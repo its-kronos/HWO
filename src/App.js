@@ -9,7 +9,7 @@ import { ExoTable } from "./UI/ExoTable";
 import { HostStarTable } from "./UI/hostStarTable";
 import { ExoBarChart } from "./UI/Bars";
 import { ParamControl } from "./UI/paramControl";
-
+import SearchBar from "./UI/Search";
 function App() {
   const [coords, setCoords] = useState([]);
   const [coordsExtremes, setCoordsExtremes] = useState({
@@ -54,32 +54,38 @@ function App() {
       )}
 
       <div className="absolute top-5 left-5 space-y-4 z-50">
-        <ExoTable />
-        <HostStarTable />
+        <SearchBar planets={coords} setExo={setExo}/>
       </div>
 
-      <div className="absolute top-1/2 right-5 transform -translate-y-1/2 space-y-4 z-50 w-1/4">
-        <ExoBarChart analytics={analysis} />
-      </div>
+        {exo?
+            <>         
 
-      <div className="absolute top-5 right-5 space-y-4 z-50">
-        <ESIPlot points={analysis} />
-      </div>
+            <div className="absolute top-5 right-5 space-y-4 z-50">
+              <button onClick={() => setExo(null)} className="btn btn-primary w-96">Return to HWO</button>   
+              <HostStarTable data={exo} />
+            </div>
 
-      <div className="absolute bottom-5 left-80 space-y-4 z-100">
-        <ParamControl />
-      </div>
+            <div className="absolute top-[calc(22%+10px)] right-5 space-y-4 z-50">
+              <ExoTable data={exo} />
+            </div>
 
-      <div className="absolute top-5 right-5 space-y-4 z-50">
-        <button 
-          onClick={() => { 
-            setAnalysis(AnalysisGeneration(coords, orbitRadius, params)); 
-          }} 
-          className="btn btn-primary"
-        >
-          Update Stats
-        </button>
-      </div>
+            </>
+          :
+          <>
+            <div className="absolute top-1/2 right-5 transform -translate-y-1/2 space-y-4 z-50 w-1/4">
+              <ExoBarChart analytics={analysis} />
+            </div>
+      
+            <div className="absolute top-5 right-5 space-y-4 z-50">
+              <ESIPlot points={analysis} />
+            </div>
+      
+            <div className="absolute bottom-5 right-5 space-y-4 z-100" style={{ marginRight: "6%" }}>
+              <ParamControl setParams={setParams} params={params} coords={coords} orbitRadius={orbitRadius} setAnalysis={setAnalysis}/>
+            </div>
+        </>
+
+        }
     </div>
   );
 }

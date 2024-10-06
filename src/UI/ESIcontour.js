@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Plot from 'react-plotly.js';
 
-const ESIPlot = ({points}) => {
+const ESIPlot = memo(({ points }) => {
   // Constants
-  const F_earth = 1.0; // Normalize solar flux at Earth
-  const R_earth = 1.0; // Earth radius in Earth radii
+  const F_earth = 1.0;
+  const R_earth = 1.0;
 
   // Generate logarithmic ranges for r and f from 10^-3 to 10^3
-  const r = Array.from({ length: 1500 }, (_, i) => Math.pow(10, (i / 1500) * 6 - 3)); // Range from 10^-3 to 10^3
-  const f = Array.from({ length: 1500 }, (_, i) => Math.pow(10, (i / 1500) * 6 - 3)); // Range from 10^-3 to 10^3
+  const r = Array.from({ length: 1500 }, (_, i) => Math.pow(10, (i / 1500) * 6 - 3));
+  const f = Array.from({ length: 1500 }, (_, i) => Math.pow(10, (i / 1500) * 6 - 3));
 
   // Create meshgrid for ESI
   const ESI = [];
-  
   for (let i = 0; i < r.length; i++) {
     const row = [];
     for (let j = 0; j < f.length; j++) {
@@ -29,11 +28,9 @@ const ESIPlot = ({points}) => {
 
   let pointX = [];
   let pointY = [];
-  if (points){
-    pointX = points.characterizable.map(point => point.pl_rade); 
+  if (points) {
+    pointX = points.characterizable.map(point => point.pl_rade);
     pointY = points.characterizable.map(point => point.pl_insol);
-  }else{
-
   }
 
   return (
@@ -45,71 +42,53 @@ const ESIPlot = ({points}) => {
             x: r,
             y: f,
             type: 'contour',
-            colorscale: 'RdBu', // Red to blue color scale
+            colorscale: 'RdBu',
             colorbar: {
               title: {
                 text: 'ESI',
-                font: {
-                  color: 'white', // Change color bar title font to white
-                },
+                font: { color: 'white' },
               },
-              tickfont: {
-                color: 'white', // Change color bar tick labels to white
-              },
+              tickfont: { color: 'white' },
             },
           },
           {
-            x: pointX,  
-            y: pointY,  
+            x: pointX,
+            y: pointY,
             type: 'scatter',
             mode: 'markers',
-            marker: {
-              color: 'white',  
-              size: 5,      
-            },
-
+            marker: { color: 'white', size: 5 },
           },
         ]}
         layout={{
           title: {
             text: 'Earth Similarity Index (ESI)',
-            font: {
-              color: 'white', // Change title text color to white
-            },
+            font: { color: 'white' },
           },
           xaxis: {
             title: {
               text: 'Stellar Flux',
-              font: {
-                color: 'white', // Change x-axis title color to white
-              },
+              font: { color: 'white' },
             },
             type: 'log',
-            range: [-3, 3], // Set the range for x-axis from 10^-3 to 10^3
-            tickfont: {
-              color: 'white', // Change x-axis tick label color to white
-            },
+            range: [-3, 3],
+            tickfont: { color: 'white' },
           },
           yaxis: {
             title: {
               text: 'Planet Radius',
-              font: {
-                color: 'white', // Change y-axis title color to white
-              },
+              font: { color: 'white' },
             },
             type: 'log',
-            range: [-3, 3], // Set the range for y-axis from 10^-3 to 10^3
-            tickfont: {
-              color: 'white', // Change y-axis tick label color to white
-            },
+            range: [-3, 3],
+            tickfont: { color: 'white' },
           },
-          paper_bgcolor: 'rgba(0,0,0,0)', // Set paper background to transparent
-          plot_bgcolor: 'rgba(0,0,0,0)', // Set plot background to transparent
+          paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: 'rgba(0,0,0,0)',
         }}
         style={{ width: '100%', height: '100%' }}
       />
     </div>
   );
-};
+});
 
 export default ESIPlot;

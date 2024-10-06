@@ -12,6 +12,7 @@ export function habitZoneRadii(bolMagSun=4.72,apparentMag,d,specType){
 }
 
 export const AnalysisGeneration = (points, orbitRadius, params) => {
+
     let y = [];
     let n = [];
     let u = [];

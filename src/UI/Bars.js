@@ -35,7 +35,7 @@ export const ExoBarChart = ({ analytics }) => {
         backgroundColor: [
           'rgba(75, 192, 192, 0.6)', // Color for Characterizable
           'rgba(255, 99, 132, 0.6)', // Color for Non-Characterizable
-          'rgba(255, 206, 86, 0.6)', // Color for Unknown
+          'rgba(80, 80, 80, 0.6)', // Color for Unknown
         ],
         borderWidth: 1,
       },
