@@ -37,7 +37,7 @@ export const updateLabel = (model, textDiv, sceneDiv, camera, textPosition) => {
     // Create points for the orbit circle
 export const createOrbitPoints = (radius, params, segments = 360) => {
         const points = [];
-        const tiltAngle = THREE.MathUtils.degToRad(60);
+        const tiltAngle = THREE.MathUtils.degToRad(0);
 
         // Create an Euler object for the given pitch, yaw, and roll
         const euler = new THREE.Euler(

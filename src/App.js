@@ -10,6 +10,7 @@ import { HostStarTable } from "./UI/hostStarTable";
 import { ExoBarChart } from "./UI/Bars";
 import { ParamControl } from "./UI/paramControl";
 import SearchBar from "./UI/Search";
+import * as THREE from 'three';
 function App() {
   const [coords, setCoords] = useState([]);
   const [coordsExtremes, setCoordsExtremes] = useState({
@@ -22,7 +23,7 @@ function App() {
   });
 
   const orbitRadius = 2542864.0;
-
+  const [LOS, setLOS] = useState(new THREE.Vector3(50000, 0, 0));
   const [exo, setExo] = useState(null);
   const [params, setParams] = useState({ 
     aperture: 8, 
@@ -50,11 +51,13 @@ function App() {
           setCoords={setCoords} 
           setCoordsExtremes={setCoordsExtremes} 
           coordsExtremes={coordsExtremes} 
+          LOS={LOS}
+          setLOS={setLOS}
         />
       )}
 
       <div className="absolute top-5 left-5 space-y-4 z-50">
-        <SearchBar planets={coords} setExo={setExo}/>
+        <SearchBar planets={coords} setExo={setExo} LOS={new THREE.Vector3(0,0,orbitRadius)} orbitRaidus={orbitRadius} setParams={setParams} setLOS={setLOS}/>
       </div>
 
         {exo?
