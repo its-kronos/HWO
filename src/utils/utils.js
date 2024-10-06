@@ -11,6 +11,13 @@ export function habitZoneRadii(bolMagSun=4.72,apparentMag,d,specType){
     return [radInner,radOutter];
 }
 
+export function scaledVector(point,orbitRad){
+    // scale point
+    var a = orbitRad / Math.sqrt(Math.pow(point.x,2)+Math.pow(point.y,2)+Math.pow(point.z,2));
+    point.multiplyScalar(a);
+    return point;
+}
+
 export const AnalysisGeneration = (points, orbitRadius, params) => {
 
     let y = [];
