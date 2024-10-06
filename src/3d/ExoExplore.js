@@ -13,11 +13,10 @@ import { createOrbitPoints } from './components/utils';
 
 
 const scale = 1e+16;
-export const ExoExplore = ({params, coords, setCoords, setCoordsExtremes, coordsExtremes}) => {
+export const ExoExplore = ({params, coords, setCoords, setCoordsExtremes, coordsExtremes, LOS,setLOS}) => {
   const orbitRadius = 2542864.0; 
 
   const [d, setD] = useState(6);
-  const [LOS, setLOS] = useState(new THREE.Vector3(50000, 0, 0));
   const [coneProp, setConeProp] = useState({v1: LOS, v2: new THREE.Vector3(0,0,0)})
   const [angle, setAngle] = useState(0);
   const tiltAngle = THREE.MathUtils.degToRad(60);
@@ -33,7 +32,7 @@ const AnimatedTarget = ({ radius }) => {
   useFrame((state, delta) => {
     if (hasRotated) return;
 
-    const newAngle = angle + delta;
+    const newAngle = angle + delta*200;
 
     if (newAngle >= Math.PI * 2) {
       setAngle(Math.PI * 2); // Ensure it stops at exactly one full rotation
@@ -51,13 +50,13 @@ const AnimatedTarget = ({ radius }) => {
     let losVector = new THREE.Vector3(x, y, z);
   
     // Apply tilt
-    losVector.applyAxisAngle(new THREE.Vector3(1, 0, 0), tiltAngle); // Tilt the same way as the orbit
+    // losVector.applyAxisAngle(new THREE.Vector3(1, 0, 0), tiltAngle); // Tilt the same way as the orbit
   
     const euler = new THREE.Euler(
       THREE.MathUtils.degToRad(params.pitch), 
       THREE.MathUtils.degToRad(params.yaw),
       THREE.MathUtils.degToRad(params.roll), 
-      'XYZ'
+      'YXZ'
     );
   
     // Apply rotation to the LOS vector
@@ -80,9 +79,6 @@ const AnimatedTarget = ({ radius }) => {
       style={{ background: 'black', width: '100%', height: '100%' }}
       camera={{ position: [0, 0, 4000000], far: 100000000, near: 0.0001 }}
     >
-      <Sphere position={[1000, 3000, 2000]} args={[60, 100, 100]}>
-        <meshBasicMaterial color="white" />
-      </Sphere>
       {/* <Galaxy imageUrl={"./galaxy.png"} /> */}
 
       {/* Draw orbit curve */}

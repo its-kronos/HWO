@@ -40,7 +40,6 @@ const convertToCartesian = (glon, glat, radius = 1) => {
 };
 
 export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, coordsExtremes}) => {
-  
 
   useEffect(() => {
     const D = params.aperture;
@@ -59,7 +58,7 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
     const isValid = (value) => !isNaN(value) && isFinite(value);
   
     // Calculate global min/max
-    const newCoords = data.map(({ glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, pl_orbeccen, sy_vmag, st_spectype, pl_name, pl_insol}) => {
+    const newCoords = data.map(({ glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, pl_orbeccen, sy_vmag,pl_bmasse,disc_year,hostname, st_spectype,discoverymethod, pl_name, pl_insol,pl_eqt, disc_facility}) => {
       
       const sy_dist_m = sy_dist * P2M;
       const Rstar = st_rad;
@@ -108,7 +107,7 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
       }
 
       const characterizable = (SNR > 5 && sy_dist < ESmax) 
-      return {x:cartesian.x,y:cartesian.y,z:cartesian.z, glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist, sy_dist_m, SNR, ESmax, characterizable, pl_orbeccen, sy_vmag,st_spectype, pl_name, pl_insol, ESI};
+      return {x:cartesian.x,y:cartesian.y,z:cartesian.z, glon, glat, st_rad, pl_rade, pl_orbsmax, sy_dist,pl_eqt,pl_bmasse,disc_year,hostname, discoverymethod,sy_dist_m, SNR, ESmax, characterizable, pl_orbeccen, sy_vmag,st_spectype, pl_name,disc_facility, pl_insol, ESI};
     });
   
     // Adjust min/max to 5th and 95th percentiles
@@ -153,7 +152,6 @@ export const ExoplanetPoints = ({ params, coords, setCoords, setCoordsExtremes, 
 
 
       let r,g,b;
-      console.log(coordsExtremes[key])
       if(key === "characterizable"){
         [r,g,b] = interpolateColor(1 ,0, pos[key], "#00FF00", "#FF0000")
       }else{
